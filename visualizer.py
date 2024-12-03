@@ -9,7 +9,7 @@ class Visualizer:
         self.solver = solver
 
     def show_schedule(self):
-        plt.matshow(self.solver.solution)
+        plt.matshow(self.solver.solution) #, cmap="plasma")
 
         num_columns = self.solver.solution.shape[1]
         plt.xticks(ticks=np.arange(num_columns))

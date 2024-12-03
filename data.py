@@ -56,9 +56,13 @@ class Data:
         numbers = []
         remaining_sum = self.T
 
-        while remaining_sum >= self.max_time:
-            random_number = self.generator.integers(1, self.max_time + 1)
+        for _ in range(self.num_bells):
+            random_number = self.generator.integers(1, remaining_sum)
             numbers.append(random_number)
+
+            if remaining_sum - random_number <= 1:
+                break
+
             remaining_sum -= random_number
 
         if remaining_sum > 0:
