@@ -87,6 +87,6 @@ class Data:
             else:
                 numbers.append(random_number)
 
-            remaining_sum -= random_number
+                remaining_sum -= random_number
 
         return numbers
