@@ -1,25 +1,20 @@
 import numpy as np
 
+
 class Data:
     def __init__(
         self,
         num_teams: int = 5,
         num_bells: int = 5,
         T: int = 20,
-        distribution: str = "normal",
         max_time: int = 5,
-        sum_to_T: bool = False,
-        equal_assignment: bool = False,
         seed: int = 42,
         team_limit: int = 5,
     ) -> None:
         self.num_teams = num_teams
         self.num_bells = num_bells
         self.T = T
-        self.distribution = distribution
         self.max_time = max_time
-        self.sum_to_T = sum_to_T
-        self.equal_assignment = equal_assignment
         self.seed = seed
         self.team_limit = team_limit
 
@@ -31,54 +26,36 @@ class Data:
 
     def generate_service_times(self):
         for i in range(self.num_teams):
-            self.plane_services.append(self.random_service_times())
-
-    def random_service_times(self):
-        if self.distribution == "normal":
-            if self.sum_to_T:
-                return self.random_integers_with_fixed_T()
-            else:
-                return self.random_integers_with_fixed_bells()
-        else:
-            raise ValueError("distribution not supported")
+            self.plane_services.append(self.random_integers_with_fixed_bells())
 
     # def random_integers_with_fixed_T(self):
-    #     random_points = sorted(self.generator.sample(range(1, self.T),  - 1))
+    #     numbers = []
+    #     remaining_sum = self.T
 
-    #     # Include 0 and target_sum to form partitions
-    #     random_points = [0] + random_points + [target_sum]
+    #     for _ in range(self.num_bells):
+    #         random_number = self.generator.integers(1, remaining_sum)
+    #         numbers.append(random_number)
 
-    #     # Compute differences between consecutive points
-    #     random_integers = [random_points[i + 1] - random_points[i] for i in range(x)]
+    #         if remaining_sum - random_number <= 1:
+    #             break
 
-    #     return random_integers
+    #         remaining_sum -= random_number
 
-    def random_integers_with_fixed_T(self):
-        numbers = []
-        remaining_sum = self.T
+    #     if remaining_sum > 0:
+    #         numbers.append(remaining_sum)
 
-        for _ in range(self.num_bells):
-            random_number = self.generator.integers(1, remaining_sum)
-            numbers.append(random_number)
-
-            if remaining_sum - random_number <= 1:
-                break
-
-            remaining_sum -= random_number
-
-        if remaining_sum > 0:
-            numbers.append(remaining_sum)
-
-        return numbers
+    #     return numbers
 
     def random_integers_with_fixed_bells(self):
         numbers = []
         remaining_sum = self.T
+        distribution = self.generator.integers(1, 5)
 
         for _ in range(self.num_bells + 1):
-            random_number = self.generator.integers(
-                1, min(remaining_sum, self.team_limit)
-            )
+            # random_number = self.generator.integers(
+            #     1, min(remaining_sum, self.team_limit)
+            # )
+            random_number = int(self.sample_distribution(distribution))
 
             if remaining_sum - random_number <= 1:
                 numbers.append(remaining_sum)
@@ -90,3 +67,27 @@ class Data:
                 remaining_sum -= random_number
 
         return numbers
+
+    def sample_distribution(self, num_distribution: int):
+        if num_distribution == 1:
+            return self.generator.integers(1, self.team_limit)
+        elif num_distribution == 2:
+            outcomes = [1, 2, 3, 4, 5]
+
+            probabilities = [0.5, 0.3, 0.1, 0.05, 0.05]
+
+            return np.random.choice(outcomes, size=1, p=probabilities)
+        elif num_distribution == 3:
+            outcomes = [5, 4, 3, 2, 1]
+
+            probabilities = [0.5, 0.3, 0.1, 0.05, 0.05]
+
+            return np.random.choice(outcomes, size=1, p=probabilities)
+        elif num_distribution == 4:
+            outcomes = [1, 2, 3, 4, 5]
+
+            probabilities = [0.05, 0.25, 0.4, 0.25, 0.05]
+
+            return np.random.choice(outcomes, size=1, p=probabilities)
+        else:
+            raise ValueError("num_distribution not supported")
