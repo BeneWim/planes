@@ -72,21 +72,21 @@ class Data:
         if num_distribution == 1:
             return self.generator.integers(1, self.team_limit)
         elif num_distribution == 2:
-            outcomes = [1, 2, 3, 4, 5]
+            outcomes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-            probabilities = [0.5, 0.3, 0.1, 0.05, 0.05]
+            probabilities = [0.3, 0.25, 0.2, 0.1, 0.05, 0.04, 0.03, 0.02, 0.005, 0.005]
 
             return np.random.choice(outcomes, size=1, p=probabilities)
         elif num_distribution == 3:
-            outcomes = [5, 4, 3, 2, 1]
+            outcomes = list(reversed([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
 
-            probabilities = [0.5, 0.3, 0.1, 0.05, 0.05]
+            probabilities = list(reversed([0.3, 0.25, 0.2, 0.1, 0.05, 0.04, 0.03, 0.02, 0.005, 0.005]))
 
             return np.random.choice(outcomes, size=1, p=probabilities)
         elif num_distribution == 4:
-            outcomes = [1, 2, 3, 4, 5]
+            outcomes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-            probabilities = [0.05, 0.25, 0.4, 0.25, 0.05]
+            probabilities = [0.002956596480241978, 0.017493275444828416, 0.06636367742789517, 0.16142469821571767, 0.25176175243131665, 0.25176175243131665, 0.16142469821571767, 0.06636367742789526, 0.01749327544482844, 0.002956596480241978]
 
             return np.random.choice(outcomes, size=1, p=probabilities)
         else:
